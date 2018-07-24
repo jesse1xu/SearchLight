@@ -1,0 +1,44 @@
+{
+  "name": "SearchLight",
+  "version": "1.0",
+  "description": "Highlight keywords from a Google search on the current page.",
+
+  "author": "Jesse Xu",
+
+  "browser_action":
+  {
+    "default_popup": "popup.html"
+  },
+
+  "icons":
+  {
+    "16": "SearchLight_16.png",
+    "32": "SearchLight_32.png",
+    "48": "SearchLight_48.png",
+    "128": "SearchLight_128.png"
+  },
+
+  "permissions":
+  [
+    "tabs",
+    "http://*/*",
+    "https://*/*",
+    "storage"
+  ],
+
+  "content_scripts":
+  [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*",
+        "file://*/*"],
+      "all_frames": true,
+      "css":["background.css","soc.css"],
+      "js":["jquery.min.js","Scrollbar.js","activeScript.js","searchTermHighlight.js"],
+      "run_at":"document_end"
+  }
+  ],
+
+  "manifest_version": 2
+}
