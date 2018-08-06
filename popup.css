@@ -1,0 +1,199 @@
+body
+{
+    background-color: white;
+    border: 0;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    opacity: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 375px;
+    /*height: 44px; !important;*/
+    font: 18px Nunito;
+    font-family: "Nunito", helvetica, sans-serif;
+}
+
+#main-section
+{
+    display: inline-block;
+}
+
+.button
+{
+    cursor: pointer;
+}
+
+.button:hover
+{
+    opacity: 0.9;
+}
+
+#power-button
+{
+    margin: 10px;
+}
+
+#power-button:hover
+{
+    opacity: 0.9;
+}
+
+#selectedWord
+{
+    margin-right: 7px;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    align-content: left;
+    width: calc(100% - 145px);
+}
+
+::selection
+{
+    background: #87d3ff; /* WebKit/Blink Browsers */
+}
+
+.input
+{
+    outline: none;
+    text-align: left;
+    display: inline;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 0;
+    color: #a5a5a5;
+    background-color: #ebeff0;
+    /*font-size: 14px;*/
+    transition: .3s ease;
+    font: 14px Nunito;
+}
+
+.gradient {
+    box-shadow: inset 0 0 5px white;
+}
+
+#arrows
+{
+    display: inline;
+}
+
+.button
+{
+    margin-left: 1%;
+    margin-right: 1%;
+}
+
+#settings
+{
+    opacity: 0;
+}
+
+input:focus
+{
+    color: black;
+}
+
+
+
+/*body*/
+/*{*/
+    /*color: black;*/
+    /*font: 14px sans-serif;*/
+/*}*/
+
+/*#version-info*/
+/*{*/
+    /*background-color: #444;*/
+    /*border: 0;*/
+    /*color: #bbb;*/
+    /*display: block;*/
+    /*font-size: 85%;*/
+    /*line-height: 1.2;*/
+    /*margin:0;*/
+    /*padding: calc(0.1em + 1px) 0;*/
+    /*position: relative;*/
+    /*text-align: center;*/
+    /*width: 100%;*/
+/*}*/
+
+/*#tools > div:first-of-type*/
+/*{*/
+    /*width: 15em;*/
+    /*padding: 0;*/
+/*}*/
+
+/*#tools > div*/
+/*{*/
+    /*display: inline-block;*/
+    /*position: relative;*/
+    /*vertical-align: top;*/
+    /*direction: ltr;*/
+/*}*/
+
+/*p*/
+/*{*/
+    /*display: block;*/
+    /*-webkit-margin-before: 1em;*/
+    /*-webkit-margin-after: 1em;*/
+    /*-webkit-margin-start: 0px;*/
+    /*-webkit-margin-end: 0px;*/
+    /*text-align: center;*/
+    /*white-space: nowrap;*/
+/*}*/
+
+/*#switch*/
+/*{*/
+    /*margin: 8px 0;*/
+    /*align: center;*/
+/*}*/
+
+/*#references-on-page*/
+/*{*/
+    /*text-align: center;*/
+/*}*/
+
+/*.statName*/
+/*{*/
+    /*margin: 0;*/
+    /*color:#8f8f8f;*/
+    /*padding: 0.5em;*/
+/*}*/
+
+/*#ref-logger, #highlighted*/
+/*{*/
+    /*background-color: #eee;*/
+    /*border: 0;*/
+    /*color: #8f8f8f;*/
+    /*cursor: pointer;*/
+    /*font-size: 100%;*/
+    /*font-weight: normal;*/
+    /*padding: 0.4em;*/
+    /*text-align: center;*/
+/*}*/
+
+/*#no-items-header*/
+/*{*/
+    /*margin: 0;*/
+    /*text-align: center;*/
+    /*color: #8f8f8f;*/
+    /*overflow-wrap: break-word;*/
+    /*word-wrap: break-word;*/
+    /*white-space: normal;*/
+/*}*/
+
+/*.statValue*/
+/*{*/
+    /*margin: 0;*/
+/*}*/
+
+/*#terms-section*/
+/*{*/
+    /*border: 2px #eee solid;*/
+    /*margin-left: 7px;*/
+    /*margin-right: 7px;*/
+/*}*/
+
+/*#power-button*/
+/*{*/
+    /*cursor: pointer;*/
+/*}*/
