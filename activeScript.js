@@ -17,6 +17,7 @@ let DEFAULT_SELECTED_COLOR = '#ff9900';
 let DEFAULT_TEXT_COLOR = '#000000';
 let DEFAULT_CASE_INSENSITIVE = false;
 
+let originalBodyText;
 let searchInfo;
 let highlighted = "to_highlight";
 let saveSelection, restoreSelection;
@@ -164,9 +165,10 @@ function createSelection(field, start, end)
 
 if (window.getSelection && document.createRange)
 {
-    saveSelection = function(containerEl) {
-        let range = window.getSelection()
-            .getRangeAt(0);
+    saveSelection = function(containerEl)
+    {
+        let range = window.getSelection().getRangeAt(0);
+        range.setEnd(range.startContainer, range.startOffset+selectedText.length);
         if (range.startOffset===range.endOffset || document.activeElement.tagName.toLowerCase() === "input")
         {
             inputTag = document.activeElement.id;
@@ -179,8 +181,7 @@ if (window.getSelection && document.createRange)
         let preSelectionRange = range.cloneRange();
         preSelectionRange.selectNodeContents(containerEl);
         preSelectionRange.setEnd(range.startContainer, range.startOffset);
-        let start = preSelectionRange.toString()
-            .length;
+        let start = preSelectionRange.toString().length;
         return {start: start,
             end: start + range.toString()
                 .length}
@@ -204,6 +205,7 @@ if (window.getSelection && document.createRange)
                     range.setStart(node, savedSel.start - charIndex);
                     foundStart = true;
                 }
+                // if (foundStart && savedSel.end >= charIndex && savedSel.end <= nextCharIndex)
                 if (foundStart && savedSel.end >= charIndex && savedSel.end <= nextCharIndex)
                 {
                     range.setEnd(node, savedSel.end - charIndex);
@@ -285,6 +287,11 @@ $('body')
     {
         mouseup();
     });
+
+window.onload = function()
+{
+    originalBodyText = document.getElementsByTagName("body")[0];
+};
 
 /* Initialize search information for this tab */
 function initSearchInfo(pattern)
@@ -377,7 +384,8 @@ function highlight(regex, highlightColor, textColor, maxResults)
 /* Remove all highlights from page */
 function removeHighlight()
 {
-    while (node = document.body.querySelector(HIGHLIGHT_TAG + '.' + HIGHLIGHT_CLASS)) {
+    while (node = document.body.querySelector(HIGHLIGHT_TAG + '.' + HIGHLIGHT_CLASS))
+    {
         node.outerHTML = node.innerHTML;
     }
     while (node = document.body.querySelector(HIGHLIGHT_TAG + '.' + SELECTED_CLASS)) {
@@ -582,3 +590,18 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse)
 /*** INIT ***/
 initSearchInfo();
 /*** INIT ***/
+
+// setTimeout(function() {
+//     checkPage();
+// }, 1000);
+//
+// let checkPage = function()
+// {
+//     if(window.getSelection() && document.createRange())
+//     {
+//         alert(window.getSelection());
+//         let range = window.getSelection().getRangeAt(0);
+//         alert("start: " + range.startOffset + " end: " + range.endOffset);
+//     }
+// };
+
