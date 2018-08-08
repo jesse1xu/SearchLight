@@ -168,7 +168,6 @@ if (window.getSelection && document.createRange)
     saveSelection = function(containerEl)
     {
         let range = window.getSelection().getRangeAt(0);
-        range.setEnd(range.startContainer, range.startOffset+selectedText.length);
         if (range.startOffset===range.endOffset || document.activeElement.tagName.toLowerCase() === "input")
         {
             inputTag = document.activeElement.id;
@@ -177,6 +176,10 @@ if (window.getSelection && document.createRange)
             inputStart = taText.indexOf(selectedText);
             inputEnd = inputStart + selectedText.length;
             selectInputField = true;
+        }
+        else
+        {
+            range.setEnd(range.startContainer, range.startOffset+selectedText.length);
         }
         let preSelectionRange = range.cloneRange();
         preSelectionRange.selectNodeContents(containerEl);
@@ -467,9 +470,10 @@ function validateRegex(pattern)
 {
     try
     {
-        let regex = new RegExp(pattern);
-        return regex;
-    } catch (e)
+        let newTerm = pattern.replace(".","\\.").replace("|","\\|").replace("?","\\?").replace("*","\\*").replace("+","\\+");
+        return new RegExp(newTerm);
+    }
+    catch (e)
     {
         return false;
     }
@@ -478,8 +482,11 @@ function validateRegex(pattern)
 /* Find and highlight regex matches in web page from a given regex string or pattern */
 function search(regexString, configurationChanged, isSearch)
 {
-    let regex = validateRegex(regexString);
-    if (regex && regexString !== '' && (configurationChanged || regexString !== searchInfo.regexString))
+    // Match metacharacters
+    let newTerm = regexString.replace(".","\\.").replace("|","\\|").replace("?","\\?").replace("*","\\*").replace("+","\\+");
+    let regex = validateRegex(newTerm);
+
+    if (regex && newTerm !== '' && (configurationChanged || newTerm !== searchInfo.regexString))
     { // new valid regex string
         removeHighlight();
         chrome.storage.local.get
@@ -492,10 +499,11 @@ function search(regexString, configurationChanged, isSearch)
             },
             function(result)
             {
-                initSearchInfo(regexString);
+                initSearchInfo(newTerm);
                 // if (result.caseInsensitive) {
-                    regex = new RegExp(regexString, 'i');
+                    regex = new RegExp(newTerm, 'i');
                 // }
+                alert(regex);
                 if (isSearch)
                 {
                     highlight(regex, result.selectedColor, result.textColor, result.maxResults);
@@ -508,7 +516,7 @@ function search(regexString, configurationChanged, isSearch)
             }
         );
     }
-    else if (regex && regexString !== '' && regexString === searchInfo.regexString)
+    else if (regex && newTerm !== '' && newTerm === searchInfo.regexString)
     { // elements are already highlighted
         chrome.storage.local.get
         ({
@@ -525,7 +533,7 @@ function search(regexString, configurationChanged, isSearch)
     else
         { // blank string or invalid regex
         removeHighlight();
-        initSearchInfo(regexString);
+        initSearchInfo(newTerm);
         returnSearchInfo('search');
     }
 }
