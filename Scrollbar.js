@@ -529,7 +529,16 @@
     {
         createHeadingMarkers(color);
         showMarkers();
-    }
+
+        let styleElem = document.head.appendChild(document.createElement("style"));
+        styleElem.innerHTML = "#.soc-marker::before {border: 5.5px solid #87d3ff;}";
+
+        let styleElem2 = document.head.appendChild(document.createElement("style"));
+        styleElem2.innerHTML = "#.soc-marker.special::before {border: 5.5px solid #ff9900;}";
+
+        // $(".soc-marker::before").border = "5.5px solid #87d3ff";
+        // $(".soc-marker.special::before").border = "5.5px solid #ff9900";
+    };
 
 
 //

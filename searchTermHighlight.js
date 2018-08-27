@@ -2,21 +2,47 @@
  * Script to highlight search engine terms on page
  * Author: Jesse Xu
  */
+var DEFAULT_HIGHLIGHT_SEARCH_TERMS = true;
 let checkIfSearchPage = function()
 {
-    let header = document.title;
-    if (header.indexOf("Google Search")>-1 || header.indexOf("Bing")>-1 || header.indexOf("Yahoo Search")>-1)
-    {
-        let searchTerms = header.match(/(.*) - .*/);
-        let terms = getUncommon(searchTerms[1]);
-        let checkNext = true;
-        $('.r, .b_algo, .title').click(function()
+    chrome.storage.local.get
+    ({
+            'highlightSearchTerms': DEFAULT_HIGHLIGHT_SEARCH_TERMS,
+            "poweredOn" : true
+        },
+        function(result)
         {
-            storeSearchInfo(terms, checkNext);
-            // alert (terms);
-        });
-    }
-}
+            // alert(result.highlightSearchTerms);
+            if(result.highlightSearchTerms && result.poweredOn)
+            {
+                let header = document.title;
+                if (header.indexOf("Google Search")>-1 || header.indexOf("Bing")>-1 || header.indexOf("Yahoo Search")>-1)
+                {
+                    let searchTerms = header.match(/(.*) - .*/);
+                    let terms = getUncommon(searchTerms[1]);
+                    let checkNext = true;
+                    $('.r, .b_algo, .title').click(function()
+                    {
+                        storeSearchInfo(terms, checkNext);
+                        // alert (terms);
+                    });
+                }
+            }
+        }
+    );
+    // let header = document.title;
+    // if (header.indexOf("Google Search")>-1 || header.indexOf("Bing")>-1 || header.indexOf("Yahoo Search")>-1)
+    // {
+    //     let searchTerms = header.match(/(.*) - .*/);
+    //     let terms = getUncommon(searchTerms[1]);
+    //     let checkNext = true;
+    //     $('.r, .b_algo, .title').click(function()
+    //     {
+    //         storeSearchInfo(terms, checkNext);
+    //         // alert (terms);
+    //     });
+    // }
+};
 
 function getUncommon(sentence)
 {

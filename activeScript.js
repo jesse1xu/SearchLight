@@ -15,7 +15,7 @@ let DEFAULT_MAX_RESULTS = 500;
 let DEFAULT_HIGHLIGHT_COLOR = '#87d3ff';
 let DEFAULT_SELECTED_COLOR = '#ff9900';
 let DEFAULT_TEXT_COLOR = '#000000';
-let DEFAULT_CASE_INSENSITIVE = false;
+let DEFAULT_CASE_SENSITIVE = false;
 
 let originalBodyText;
 let searchInfo;
@@ -33,14 +33,15 @@ Element.prototype.documentOffsetTop = function()
 {
     return this.offsetTop + (this.offsetParent ? this.offsetParent.documentOffsetTop() : 0);
 };
-Element.prototype.visible = function() {
+Element.prototype.visible = function()
+{
     return (!window.getComputedStyle(this) || window.getComputedStyle(this)
             .getPropertyValue('display') === '' ||
         window.getComputedStyle(this)
             .getPropertyValue('display') !== 'none')
 }
 
-function stripVowelAccentAndLowerCase(str)
+function stripVowelAccent(str)
 {
     let rExps=[ /[\xC0-\xC2]/g, /[\xE0-\xE2]/g,
         /[\xC8-\xCA]/g, /[\xE8-\xEB]/g,
@@ -53,7 +54,7 @@ function stripVowelAccentAndLowerCase(str)
     for(let i=0; i<rExps.length; ++i)
         str=str.replace(rExps[i],repChar[i]);
 
-    return str.toLowerCase();
+    return str;
 }
 
 //Get what the user has selected on the screen
@@ -88,26 +89,37 @@ function getSelected()
 //User performs a selection action
 function mouseup()
 {
-    currentlySelected = getSelected();
-    selectedText = currentlySelected.toString()
-        .trim();
-    selectedText = stripVowelAccentAndLowerCase(selectedText);
+    chrome.storage.local.get
+    ({
+            'poweredOn' : true
+        },
+        function(result)
+        {
+            if (result.poweredOn)
+            {
+                currentlySelected = getSelected();
+                selectedText = currentlySelected.toString()
+                    .trim();
+                selectedText = stripVowelAccent(selectedText);
 
-    // remove all existing highlighting
-    removeHighlight();
+                // remove all existing highlighting
+                removeHighlight();
 
-    // remove all markers
-    removeMarkers();
+                // remove all markers
+                removeMarkers();
 
 
-    if (selectedText.length > 0)
-    {
-        doSave();
-        highlightSearchTerms(selectedText, false, false, false);
+                if (selectedText.length > 0)
+                {
+                    doSave();
+                    highlightSearchTerms(selectedText, false, false, false);
 
-    }
+                }
+            }
 
-    // alert(selectedText);
+        }
+    );
+
 }
 
 //If user selects a phrase, option to search as is or split up into individual words
@@ -416,7 +428,7 @@ function selectFirstNode(selectedColor)
     {
         searchInfo.highlightedNodes[0].className = SELECTED_CLASS;
         searchInfo.highlightedNodes[0].style.backgroundColor = selectedColor;
-        scrollToElement(searchInfo.highlightedNodes[0]);
+        returnSearchInfo('selectNode');
     }
 }
 
@@ -495,15 +507,16 @@ function search(regexString, configurationChanged, isSearch)
                 'selectedColor': DEFAULT_SELECTED_COLOR,
                 'textColor': DEFAULT_TEXT_COLOR,
                 'maxResults': DEFAULT_MAX_RESULTS,
-                'caseInsensitive': DEFAULT_CASE_INSENSITIVE
+                'caseSensitive': DEFAULT_CASE_SENSITIVE
             },
             function(result)
             {
+                // alert("highlight: " + result.highlightColor +", " + "select: " + result.selectedColor);
                 initSearchInfo(newTerm);
-                // if (result.caseInsensitive) {
+                if (!result.caseSensitive)
+                {
                     regex = new RegExp(newTerm, 'i');
-                // }
-                alert(regex);
+                }
                 if (isSearch)
                 {
                     highlight(regex, result.selectedColor, result.textColor, result.maxResults);
@@ -512,24 +525,30 @@ function search(regexString, configurationChanged, isSearch)
                 {
                     highlight(regex, result.highlightColor, result.textColor, result.maxResults);
                 }
+                // if(searchInfo.length>0)
+                // {
+                //     returnSearchInfo('search');
+                // }
+                selectFirstNode(result.selectedColor);
                 returnSearchInfo('search');
-            }
-        );
-    }
-    else if (regex && newTerm !== '' && newTerm === searchInfo.regexString)
-    { // elements are already highlighted
-        chrome.storage.local.get
-        ({
-                'highlightColor': DEFAULT_HIGHLIGHT_COLOR,
-                'selectedColor': DEFAULT_SELECTED_COLOR
-            },
-            function(result)
-            {
 
-                selectNextNode(result.highlightColor, result.selectedColor);
             }
         );
     }
+    // else if (regex && newTerm !== '' && newTerm === searchInfo.regexString)
+    // { // elements are already highlighted
+    //     chrome.storage.local.get
+    //     ({
+    //             'highlightColor': DEFAULT_HIGHLIGHT_COLOR,
+    //             'selectedColor': DEFAULT_SELECTED_COLOR
+    //         },
+    //         function(result)
+    //         {
+    //
+    //             selectNextNode(result.highlightColor, result.selectedColor);
+    //         }
+    //     );
+    // }
     else
         { // blank string or invalid regex
         removeHighlight();
