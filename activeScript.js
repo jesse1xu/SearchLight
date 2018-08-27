@@ -102,11 +102,7 @@ function mouseup()
                     .trim();
                 selectedText = stripVowelAccent(selectedText);
 
-                // remove all existing highlighting
-                removeHighlight();
 
-                // remove all markers
-                removeMarkers();
 
 
                 if (selectedText.length > 0)
@@ -116,6 +112,11 @@ function mouseup()
 
                 }
             }
+            // remove all existing highlighting
+            removeHighlight();
+
+            // remove all markers
+            removeMarkers();
 
         }
     );

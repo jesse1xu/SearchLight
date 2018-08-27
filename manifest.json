@@ -12,10 +12,10 @@
 
   "icons":
   {
-    "16": "SearchLight_16.png",
-    "32": "SearchLight_32.png",
-    "48": "SearchLight_48.png",
-    "128": "SearchLight_128.png"
+    "16": "img/SearchLight_16.png",
+    "32": "img/SearchLight_32.png",
+    "48": "img/SearchLight_48.png",
+    "128": "img/SearchLight_128.png"
   },
 
   "permissions":
@@ -34,7 +34,7 @@
         "https://*/*",
         "file://*/*"],
       "all_frames": true,
-      "css":["background.css","soc.css"],
+      "css":["soc.css"],
       "js":["jquery.min.js","Scrollbar.js","activeScript.js","searchTermHighlight.js"],
       "run_at":"document_end"
   }

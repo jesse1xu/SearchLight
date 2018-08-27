@@ -5,7 +5,9 @@
     <title>SearchLight</title>
     <link rel="stylesheet" href="popup.css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:300i,400,600,700" rel="stylesheet">
-
+    <script src="jquery.min.js"></script>
+    <script src='spectrum.js'></script>
+    <link rel='stylesheet' href='spectrum.css' />
 </head>
 <body>
 
@@ -17,6 +19,7 @@
             data-tip-position="0"
             data-tip="Click to disable Searchlight"
             height=24px
+            width="24px"
             class = "button"
             align="left"
             id="power-button"
@@ -29,9 +32,11 @@
                 spellcheck="false"
                 autofocus="autofocus"
                 type="text"
-                value="asd"
-                onFocus="this.select()"
+                value=""
         >
+        <a id="num-results" class="gradient">
+
+        </a>
         <img
                 class="button"
                 role="button"
@@ -39,6 +44,7 @@
                 data-tip-position="0"
                 data-tip="Previous Word"
                 height=12px
+                width=8.5px
                 id="left arrow"
                 src="img/left-arrow.PNG"
                 alt="Previous Word"
@@ -50,6 +56,7 @@
                 data-tip-position="0"
                 data-tip="Next Word"
                 height=12px
+                width="8.5px"
                 id="right arrow"
                 src="img/right-arrow.PNG"
                 alt="Next Word"
@@ -61,7 +68,8 @@
                 data-tip-position="0"
                 data-tip="Settings"
                 height=13px
-                id="settings icon"
+                width="13px"
+                id="settingsIcon"
                 src="img/settings.png"
                 alt="settings"
         >
@@ -70,13 +78,46 @@
 </div>
 
 <div id="settings">
-    bet
+    <hr style="
+    border: 0;
+    height: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3)">
+    <div id="color-selection">
+        <div>
+            highlight color &nbsp
+            <input type='text' id="highlight-color"/>
+        </div>
+        <div>
+            search color &nbsp
+            <input type='text' id="search-color"/>
+        </div>
+    </div>
+    <div id=other-options>
+        <div id="checkSearch">
+            <label class="switch">
+                <input type="checkbox" id="search-check" name="search-check" checked />
+                <span class="slider"></span>
+            </label>
+            <div class="checkLabel">
+                <label for="search-check">&nbsp;highlight search terms</label>
+            </div>
+
+        </div>
+        <div id="checkCase">
+            <label class="switch">
+                <input type="checkbox" id="case-check" name="case-check" />
+                <span class="slider"></span>
+            </label>
+            <div class="checkLabel">
+                <label for="case-check">&nbsp;case sensitive</label>
+            </div>
+
+        </div>
+    </div>
 </div>
 
-
-
-
-</div>
 </body>
 <script src="popup.js"></script>
+
 </html>

@@ -530,11 +530,42 @@
         createHeadingMarkers(color);
         showMarkers();
 
-        let styleElem = document.head.appendChild(document.createElement("style"));
-        styleElem.innerHTML = "#.soc-marker::before {border: 5.5px solid #87d3ff;}";
+        chrome.storage.local.get
+        ({
+                'highlightColor': DEFAULT_HIGHLIGHT_COLOR,
+                'selectedColor': DEFAULT_SELECTED_COLOR,
+            },
+            function(result)
+            {
+                let s = document.createElement("style");
+                document.body.appendChild(s);
+                s.innerHTML = ".soc-marker::before " +
+                    "{border: 5.5px solid " + result.highlightColor + ";border-top-color: transparent;\n" +
+                    "    border-right-color: transparent;\n" +
+                    "    border-bottom-color: transparent;}";
 
-        let styleElem2 = document.head.appendChild(document.createElement("style"));
-        styleElem2.innerHTML = "#.soc-marker.special::before {border: 5.5px solid #ff9900;}";
+                let s2 = document.createElement("style");
+                document.body.appendChild(s2);
+                s2.innerHTML = ".soc-marker.special::before " +
+                    "{border: 5.5px solid " + result.selectedColor + ";border-top-color: transparent;\n" +
+                    "    border-right-color: transparent;\n" +
+                    "    border-bottom-color: transparent;}";
+            }
+        );
+
+
+        // let styleElem = document.head.appendChild(document.createElement("style"));
+        // styleElem.innerHTML = "#.soc-marker::before {border: 5.5px solid #87d3ff;}";
+
+        let s2 = document.createElement("style");
+        document.body.appendChild(s2);
+        s2.innerHTML = ".soc-marker.special::before " +
+            "{border: 5.5px solid #ff9900;border-top-color: transparent;\n" +
+            "    border-right-color: transparent;\n" +
+            "    border-bottom-color: transparent;}";
+
+        // let styleElem2 = document.head.appendChild(document.createElement("style"));
+        // styleElem2.innerHTML = "#.soc-marker.special::before {border: 5.5px solid #ff9900;}";
 
         // $(".soc-marker::before").border = "5.5px solid #87d3ff";
         // $(".soc-marker.special::before").border = "5.5px solid #ff9900";

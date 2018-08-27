@@ -1,0 +1,22 @@
+{
+  "name": "searchlight",
+  "version": "1.0.0",
+  "description": "Chrome Extension for convenient added search functionality",
+  "main": "activeScript.js",
+  "dependencies": {
+    "node-rake": "^1.0.1",
+    "npm": "^6.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Javascript",
+    "chrome",
+    "extension",
+    "html"
+  ],
+  "author": "Jesse Xu",
+  "license": "MIT"
+}
